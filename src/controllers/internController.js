@@ -7,7 +7,7 @@
 const collegeModel = require('../models/collegeModel')
 const internModel = require('../models/internModel')
 
-const createInterModel = async (req, res) => {
+const createInternModel = async (req, res) => {
     try {
     let body = req.body
     const { name, mobile, email, collegeName } = body
@@ -57,4 +57,4 @@ const createInterModel = async (req, res) => {
 }
 
 
-module.exports.createInterModel = createInterModel
+module.exports.createInternModel = createInternModel
