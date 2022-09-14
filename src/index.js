@@ -1,11 +1,26 @@
-//-------------Import Modules:-------------------------------------------//
-const express = require('express');
-const bodyParser = require('body-parser');
-const route = require('./routes/route.js');
-const mongoose = require('mongoose');
-const multer = require('multer');
+// const express = require("express");
+// const app = express();
+// const bodyparser = require("body-parser");
 
-const app = express();
+// const route = require("./route/route");
+// const mongoose = require("mongose");
+
+// app.use(bodyparser.json());
+// app.use("/", route);
+
+// mongoose
+//   .connect(
+//     "mongodb+srv://Mohammadvaseem099:uDNTAkafkNrYLe0C@cluster0.2npclft.mongodb.net/Mohammadvaseem099",
+//     { useNewUrlParser: true }
+//   )
+//   .then(() => console.log("MongoDB is Connected"))
+//   .catch((err) => console.log(err));
+
+// app.listen(3210, function () {
+//   console.log("Express is connected in port:" + 3210);
+// });
+
+// const app = express();
 
 //---------------Bind Application Level Middleware:-----------------------------//
 app.use(bodyParser.json());
