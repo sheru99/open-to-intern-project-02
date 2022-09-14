@@ -1,8 +1,16 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/get-api", function(req, res){
-    res.send("working is fine");
-});
 
-module.exports = router
+
+const collageController = require('../controllers/collegeController')
+const internController = require('../controllers/internController')
+
+
+router.post("/functionup/colleges",collageController.collageModel)
+router.post("/functionup/interns",internController.createInterModel)
+
+
+
+
+module.exports = router ;
