@@ -3,7 +3,7 @@
     "body-parser": "^1.20.0",
     "express": "^4.18.1",
     "mongoose": "^6.6.0",
-    "mongose": "^0.0.2-security",
+    "mongoose-type-url": "^2.1.0",
     "nodemon": "^2.0.19"
   },
   "name": "open-to-intern-project-02",
@@ -11,7 +11,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
