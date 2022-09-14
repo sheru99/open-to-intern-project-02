@@ -14,3 +14,5 @@ const getCollege = async function(req,res){
 
         
 }
+
+module.exports.getCollege = getCollege
