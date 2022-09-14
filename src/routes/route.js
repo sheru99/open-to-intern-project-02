@@ -1,14 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const collegeController = require("../controllers/collegeController")
-
-
-
-const collageController = require('../controllers/collegeController')
 const internController = require('../controllers/internController')
 
 
-router.post("/functionup/colleges",collageController.collageModel)
+router.get("/functionup/colleges",collegeController.getCollege)
 router.post("/functionup/interns",internController.createInterModel)
 
 
