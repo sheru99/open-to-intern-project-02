@@ -5,10 +5,18 @@ const getCollege = async function(req,res){
 
     const data = req.query
     const clgName = req.query.name
-    const clgData= await collegeModel.findOne({name:clgName}).select({isDeleted:0})
-    const clgId = clgData._id
+    if(!data || !clgName)
+        return res.status(400).send({status:false,message:"CollegeName not given"})
 
-    const internData = await internModel.find({collegeId:clgId}).select({collegeId:0})
+    const clgData= await collegeModel.findOne({name:clgName,isDeleted:false}).select({isDeleted:0})
+    if(!clgData)
+        return res.status(404).send({status:false,message:"CollegeName not valid"})
+    
+    
+    const clgId = clgData._id
+    const internData = await internModel.find({collegeId:clgId,isDeleted:false}).select({collegeId:0,isDeleted:0})
+    if(!internData)
+        return res.status(404).send({status:false,message:"No intern found for this college"})
 
     return res.status(200).send({"data":{...clgData,"interns":internData}})
 
