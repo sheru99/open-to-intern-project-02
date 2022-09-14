@@ -4,7 +4,7 @@
 // { name, mobile, email, collegeName}
 // Return HTTP status 201 on a succesful document creation. Also return the document. The response should be a JSON object like this
 // Return HTTP status 400 for an invalid request with a response body like this
-const collageModel = require('../models/collegeModel')
+const collegeModel = require('../models/collegeModel')
 const internModel = require('../models/internModel')
 
 const createInterModel = async (req, res) => {
@@ -34,14 +34,14 @@ const createInterModel = async (req, res) => {
 
 
 
-    let collageDetails = await collageModel.findOne({ $or: [{ name: collegeName }, { fullName: collageModel }] })
-    if (collageDetails.length == 0) {
+    let collegeDetails = await collegeModel.findOne({ $or: [{ name: collegeName }, { fullName: collageModel }] })
+    if (collegeDetails.length == 0) {
         return  res.status(404).send({ status: false, msg: "Collage Name Not Found" })
     }
-    if (collageDetails.isDeleted == true) {
+    if (collegeDetails.isDeleted == true) {
         return   res.status(404).send({ status: false, msg: "Collage Name Not Found" })
     }
-    let collegeId = collageDetails._id
+    let collegeId = collegeDetails._id
 
     // create another object to store data in database
     let obj = { name, mobile, email, collegeId }

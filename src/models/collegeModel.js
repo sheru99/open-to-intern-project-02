@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 const url = require('mongoose-type-url')
 
 
-const collageModel = new mongoose.Schema({
+const collegeModel = new mongoose.Schema({
     name: {
         type: String,
         required: [true,"please Enter  Name"],
@@ -27,5 +27,5 @@ const collageModel = new mongoose.Schema({
 
 
 
-module.exports = mongoose.model("CollageModel",collageModel)
+module.exports = mongoose.model("CollageModel",collegeModel)
 
