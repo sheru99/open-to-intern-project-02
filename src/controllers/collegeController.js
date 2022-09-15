@@ -47,6 +47,8 @@ const college = async function (req, res) {
 
 const getCollege = async function(req,res){
 
+    try
+    {
     const clgName = req.query.name
     if(!clgName)
         return res.status(400).send({status:false,message:"CollegeName not given"})
@@ -68,6 +70,11 @@ const getCollege = async function(req,res){
         interns:internData,
     }
     return res.status(200).send({"data":result})
+    }
+    catch(err)
+    {
+        return res.status(500).send({ status: false, msg: err.message });
+    }
 
         
 }
