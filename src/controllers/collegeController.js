@@ -16,21 +16,21 @@ const college = async function (req, res) {
     try {
         let Data = req.body;
         let { name, fullName, logoLink } = Data
-        Data.name = name.toLowerCase()
-        Data.fullName = fullName.toLowerCase()
-
-        if (!name) return res.status(400).send({ status: false, msg: " please use name " })
-        if (!checkName.test(name)) return res.status(400).send({ status: false, msg: "please Valid user name" })
         
+
+        if (!name) return res.status(400).send({ status: false, msg: " Please Enter Name " })
+        if (!checkName.test(name)) return res.status(400).send({ status: false, msg: "please Valid user name" })
+        name = name.toLowerCase()
         let checkName1 = await collegeModel.findOne({ name: name })
-        if (checkName1) return res.status(400).send({ status: false, msg: "name already exist" })
+        if (checkName1) return res.status(400).send({ status: false, msg: "Name Already Exist" })
 
 
-        if (!fullName) return res.status(400).send({ status: false, msg: " please use fullName " })
+        if (!fullName) return res.status(400).send({ status: false, msg: " Please Enter FullName " })
         if (!checkName.test(fullName)) return res.status(400).send({ status: false, msg: "please Valid user fullName" })
+        fullName = fullName.toLowerCase()
 
 
-        if (!logoLink) return res.status(400).send({ status: false, msg: " please use logoLink " })
+        if (!logoLink) return res.status(400).send({ status: false, msg: " Please Enter LogoLink " })
         if (!logoValidation(logoLink)) {
             return res.status(400).send({ status: false, msg: "Please enter valid logoLink" })
         }

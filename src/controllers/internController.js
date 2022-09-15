@@ -34,12 +34,7 @@ const createInternModel = async (req, res) => {
         if (Object.keys(body).length == 0) {
             return res.status(400).send({ status: false, msg: "Please Enter valid Details" })
         }
-        
-        body.name = body.name.trim().toLowerCase()
-        body.email =body.email.trim().toLowerCase() 
-        body.collegeName = body.collegeName.trim().toLowerCase()
-        const { name, mobile, email, collegeName } = body
-        
+        let { name, mobile, email, collegeName } = body
 
         if (!name) {
             return res.status(400).send({ status: false, msg: "Please Enter name" })
@@ -47,7 +42,7 @@ const createInternModel = async (req, res) => {
         if (!isValid(name)) {
             return res.status(400).send({ status: false, msg: "Please Enter valid Name" })
         }
- 
+        name = name.trim().toLowerCase() 
         if (!mobile) {
             res.status(400).send({ status: false, msg: "Please Enter mobile" })
         }
@@ -71,12 +66,16 @@ const createInternModel = async (req, res) => {
             return res.status(400).send({ status: false, msg: "Please Enter valid collegeName" })
         } if (!emailValidator(email)) {
             return res.status(400).send({ status: false, msg: "Email_ID Not Valid ,Please Enter Valid Email_id" })
-        } if (email) {
+        } 
+        email =email.trim().toLowerCase() 
+        if (email) {
             let check = await internModel.findOne({ email: email })
             if (check) {
                 return res.status(400).send({ status: false, msg: "Email Already Exist, Please Try With Another Email _ID" })
             }
-        }
+        } 
+        
+
 
         //collegeName validator if not present in body
         if (!collegeName) {
@@ -86,6 +85,8 @@ const createInternModel = async (req, res) => {
         if (!isValid(collegeName)) {
             return res.status(400).send({ status: false, msg: "Please Enter valid collegeName" })
         }
+        collegeName = collegeName.trim().toLowerCase()
+
 
         let collageDetails = await collegeModel.findOne({ $or: [{ name: collegeName }, { fullName: collegeName }] })
         
@@ -100,7 +101,7 @@ const createInternModel = async (req, res) => {
 
         // storing data in internmodel database
         let saveData = await internModel.create(body)
-        return res.status(200).send({ status: true, data: saveData })
+        return res.status(201).send({ status: true, data: saveData })
 
 
     }
