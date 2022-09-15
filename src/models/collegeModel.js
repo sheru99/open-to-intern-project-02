@@ -1,31 +1,28 @@
-const mongoose = require("mongoose")
-// const url = mongoose.SchemaType.url
-const url = require('mongoose-type-url')
+const mongoose = require("mongoose");
+//const url = mongoose.SchemaType.url
 
-
-const collegeModel = new mongoose.Schema({
-    name: {
+const collegeSchema = new mongoose.Schema({
+    name: { 
         type: String,
-        required: [true,"please Enter  Name"],
+        required: true,
         unique: true,
         trim: true
-    },
+    }, 
+
     fullName: {
-        type: String,
-        required: "Please Enter full Name"  
-    },
+        type: String, 
+        required: true,
+        trim: true
+     //example `Indian Institute of Technology, Hyderabad`
+    }, 
     logoLink: {
-        type: url,
-        required: "Please Provide LogoLink"
-    },
+        type: String,
+        required: true
+    }, 
+    isDeleted: { type: Boolean, default: false },
+}, 
+{
+    timestamps: true
+});
 
-    isDeleted: {
-        type: Boolean,
-        default: false
-    }   
-})
-
-
-
-module.exports = mongoose.model("CollageModel",collegeModel)
-
+module.exports = mongoose.model("College", collegeSchema);

@@ -25,3 +25,40 @@ const getCollege = async function(req,res){
 }
 
 module.exports.getCollege = getCollege
+// const collegeModel = require("../models/collegeModel");
+const checkName = /^[a-z\s]+$/i
+const logoValidation = function (logo) {
+    let regex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm
+
+    return regex.test(logo)
+    // return logo.match(regex)
+
+}
+
+const college = async function (req, res) {
+    try {
+        let Data = req.body;
+        let { name, fullName, logoLink } = Data
+        if (!name) return res.status(400).send({ status: false, msg: " please use name " })
+        if (!checkName.test(name)) return res.status(400).send({ status: false, msg: "please Valid user name" })
+
+        let checkName1 = await collegeModel.findOne({ name: name })
+        if (checkName1) return res.status(400).send({ status: false, msg: "name already exist" })
+
+
+        if (!fullName) return res.status(400).send({ status: false, msg: " please use fullName " })
+        if (!checkName.test(fullName)) return res.status(400).send({ status: false, msg: "please Valid user fullName" })
+
+        if (!logoLink) return res.status(400).send({ status: false, msg: " please use logoLink " })
+        if (!logoValidation(logoLink)) {
+            return res.status(400).send({ status: false, msg: "Please enter valid logoLink" })
+        }
+        let saveData = await collegeModel.create(Data);
+        res.status(201).send({ status: true, msg: saveData })
+    }
+    catch (err) {
+        return res.status(500).send({ status: false, msg: err.message });
+    }
+}
+
+module.exports.college = college;
