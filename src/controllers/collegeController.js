@@ -1,31 +1,34 @@
 const internModel = require('../models/internModel')
 const collegeModel = require('../models/collegeModel')
 
+
 const getCollege = async function(req,res){
 
-    const data = req.query
     const clgName = req.query.name
-    if(!data || !clgName)
+    if(!clgName)
         return res.status(400).send({status:false,message:"CollegeName not given"})
 
-    const clgData= await collegeModel.findOne({name:clgName,isDeleted:false}).select({isDeleted:0,__v:0})
+    const clgData= await collegeModel.findOne({name:clgName,isDeleted:false})
     if(!clgData)
         return res.status(404).send({status:false,message:"CollegeName not valid"})
     
     
     const clgId = clgData._id
-    const doc = clgData._doc
+    
     const internData = await internModel.find({collegeId:clgId,isDeleted:false}).select({collegeId:0,isDeleted:0,__v:0})
     if(internData.length==0)
         return res.status(404).send({status:false,message:"No intern found for this college"})
-
-    return res.status(200).send({"data":{...doc,"interns":internData}})
+    const result = {
+        name:clgData.name,
+        fullName:clgData.fullName,
+        logoLink:clgData.logoLink,
+        interns:internData,
+    }
+    return res.status(200).send({"data":result})
 
         
 }
 
-module.exports.getCollege = getCollege
-// const collegeModel = require("../models/collegeModel");
 const checkName = /^[a-z\s]+$/i
 const logoValidation = function (logo) {
     let regex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm
@@ -62,3 +65,5 @@ const college = async function (req, res) {
 }
 
 module.exports.college = college;
+module.exports.getCollege = getCollege
+
