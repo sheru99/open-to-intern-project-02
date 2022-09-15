@@ -10,15 +10,15 @@ const internModel = require('../models/internModel')
 const checkName = /^[a-z\s]+$/i
 
 
-const isValid = (detail)=>{
-    if(!typeof detail ==="string"||detail.trim().length ==0){
+const isValid = (detail) => {
+    if (!typeof detail === "string" || detail.trim().length == 0) {
         return false
-    }return true
+    } return true
 }
 
 
 const emailValidator = function (email) {
-    
+
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     return emailRegex.test(email);
 }
@@ -30,9 +30,14 @@ const mobileValidator = (mobile) => {
 
 const createInternModel = async (req, res) => {
     try {
+        let query = req.query
+        if (Object.keys(query).length > 0) {
+            res.status(400).send({ status: false, msg: "Please Check the  Api" })
+        }
+
         let body = req.body
         if (Object.keys(body).length == 0) {
-            return res.status(400).send({ status: false, msg: "Please Enter valid Details" })
+            return res.status(400).send({ status: false, msg: "Please Enter  Details" })
         }
         let { name, mobile, email, collegeName } = body
 
@@ -42,7 +47,7 @@ const createInternModel = async (req, res) => {
         if (!isValid(name)) {
             return res.status(400).send({ status: false, msg: "Please Enter valid Name" })
         }
-        name = name.trim().toLowerCase() 
+        name = name.trim().toLowerCase()
         if (!mobile) {
             res.status(400).send({ status: false, msg: "Please Enter mobile" })
         }
@@ -66,15 +71,15 @@ const createInternModel = async (req, res) => {
             return res.status(400).send({ status: false, msg: "Please Enter valid collegeName" })
         } if (!emailValidator(email)) {
             return res.status(400).send({ status: false, msg: "Email_ID Not Valid ,Please Enter Valid Email_id" })
-        } 
-        email =email.trim().toLowerCase() 
+        }
+        email = email.trim().toLowerCase()
         if (email) {
             let check = await internModel.findOne({ email: email })
             if (check) {
                 return res.status(400).send({ status: false, msg: "Email Already Exist, Please Try With Another Email _ID" })
             }
-        } 
-        
+        }
+
 
 
         //collegeName validator if not present in body
@@ -89,18 +94,19 @@ const createInternModel = async (req, res) => {
 
 
         let collageDetails = await collegeModel.findOne({ $or: [{ name: collegeName }, { fullName: collegeName }] })
-        
-        if (!collageDetails ) {
+
+        if (!collageDetails) {
             return res.status(404).send({ status: false, msg: "Collage Name Not Found" })
         }
         if (collageDetails.isDeleted == true) {
             return res.status(404).send({ status: false, msg: "Collage Name Not Found" })
         }
         let collegeId = collageDetails["_id"]
-        body.collegeId = collegeId
+
 
         // storing data in internmodel database
-        let saveData = await internModel.create(body)
+        let obj = { name, mobile, email, collegeId }
+        let saveData = await internModel.create(obj)
         return res.status(201).send({ status: true, data: saveData })
 
 
@@ -113,3 +119,4 @@ const createInternModel = async (req, res) => {
 
 
 module.exports.createInternModel = createInternModel
+
