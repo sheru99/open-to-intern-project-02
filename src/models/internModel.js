@@ -23,7 +23,7 @@ const internModel = new mongoose.Schema({
     },
     collegeId: {
         type: ObjectId,
-        ref: "CollageModel",
+        ref: "Collage",
         required: true
     },
     isDeleted: {
