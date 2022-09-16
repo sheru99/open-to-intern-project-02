@@ -28,7 +28,7 @@ try {
     if (!isValid(name)) {
         return res.status(400).send({ status: false, message: "Please Enter Valid Name" })
     }
-    if (!checkName.test(name)) return res.status(400).send({ status: false, message: "please Valid user name" })
+    if (!checkName.test(name)) return res.status(400).send({ status: false, message: "Please Enter Valid User Name" })
     name = name.toLowerCase()
     let checkName1 = await collegeModel.findOne({ name: name })
     if (checkName1) return res.status(400).send({ status: false, message: "Name Already Exist,Please Try With Another Valid Name" })
