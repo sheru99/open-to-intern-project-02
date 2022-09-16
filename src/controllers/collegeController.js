@@ -8,7 +8,7 @@ const logoValidation = function (logo) {
     return regex.test(logo)
 }
 const isValid = (data) => {
-    if (!typeof data === "string" || data.trim().length == 0) {
+    if (!typeof data === "string" || data.trim().length == 0||typeof data === "Number") {
         return false
     } return true
 }
