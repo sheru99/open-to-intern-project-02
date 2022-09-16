@@ -1,6 +1,6 @@
 const internModel = require('../models/internModel')
 const collegeModel = require('../models/collegeModel')
-const checkName = /^[a-z\s]+$/i
+const checkName = /^[a-z\s ,]+$/i
 
 const logoValidation = function (logo) {
     let regex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm
@@ -49,7 +49,7 @@ try {
     }
     let obj ={name,fullName,logoLink}
     let saveData = await collegeModel.create(obj);
-    res.status(201).send({ status: true, message: saveData })
+    res.status(201).send({ status: true, message:"",data: saveData })
 }
 catch (err) {
     return res.status(500).send({ status: false, message: err.message });
@@ -63,9 +63,9 @@ const getCollege = async function (req, res) {
 
 try {
 
-    const clgName = req.query.name
+    const clgName = req.query.collegeName
     const query = req.query
-    const comp = ["name"]
+    const comp = ["collegeName"]
     if (!Object.keys(query).every(elem => comp.includes(elem)))
       return res.status(400).send({ status: false, msg: "wrong query parameters" });
 
@@ -88,7 +88,7 @@ try {
         logoLink: clgData.logoLink,
         interns: internData,
     }
-    return res.status(200).send({ "data": result })
+    return res.status(200).send({ "status":true,"data": result })
 }
 catch (err) {
     return res.status(500).send({ status: false, message: err.message });
