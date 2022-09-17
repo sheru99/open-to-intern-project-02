@@ -24,7 +24,6 @@ try {
     let { name, fullName, logoLink } = Data
 
 
-    if (!name) return res.status(400).send({ status: false, message: " Please Enter Name " })
     if (!isValid(name)) {
         return res.status(400).send({ status: false, message: "Please Enter Valid Name" })
     }
@@ -34,22 +33,18 @@ try {
     if (checkName1) return res.status(400).send({ status: false, message: "Name Already Exist,Please Try With Another Valid Name" })
 
 
-    if (!fullName) return res.status(400).send({ status: false, message: " Please Enter FullName " })
     if (!isValid(fullName)) {
         return res.status(400).send({ status: false, message: "Please Enter Valid FullName" })
     }
     if (!checkName.test(fullName)) return res.status(400).send({ status: false, message: "Please Enter Valid user fullName" })
     fullName = fullName.toLowerCase()
 
-
-    if (!logoLink) return res.status(400).send({ status: false, message: " Please Enter LogoLink " })
-
     if (!logoValidation(logoLink)) {
         return res.status(400).send({ status: false, message: "Please Enter Valid LogoLink" })
     }
     let obj ={name,fullName,logoLink}
     let saveData = await collegeModel.create(obj);
-    res.status(201).send({ status: true, message:"",data: saveData })
+    res.status(201).send({ status: true, message:"College document created",data: saveData })
 }
 catch (err) {
     return res.status(500).send({ status: false, message: err.message });
@@ -81,14 +76,14 @@ try {
 
     const internData = await internModel.find({ collegeId: clgId, isDeleted: false }).select({ collegeId: 0, isDeleted: 0, __v: 0 })
     if (internData.length == 0)
-        return res.status(404).send({ status: false, message: "No Internship Found For This College" })
+        return res.status(404).send({ status: false, message: "No Interns Found For This College" })
     const result = {
         name: clgData.name,
         fullName: clgData.fullName,
         logoLink: clgData.logoLink,
         interns: internData,
     }
-    return res.status(200).send({ "status":true,"data": result })
+    return res.status(200).send({ status:true,data: result })
 }
 catch (err) {
     return res.status(500).send({ status: false, message: err.message });

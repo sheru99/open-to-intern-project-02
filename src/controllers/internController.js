@@ -32,16 +32,11 @@ const createInternModel = async (req, res) => {
     }
     let { name, mobile, email, collegeName } = body
 
-    if (!name) {
-        return res.status(400).send({ status: false, message: "Please Enter name" })
-    }
     if (!isValid(name)||!checkName.test(name)) {
         return res.status(400).send({ status: false, message: "Please Enter valid Name" })
     }
     name = name.trim().toLowerCase()
-    if (!mobile) {
-        res.status(400).send({ status: false, message: "Please Enter mobile" })
-    }
+
     if (!isValid(mobile)) {
         return res.status(400).send({ status: false, message: "Please Enter valid Mobile" })
     }
@@ -55,10 +50,7 @@ const createInternModel = async (req, res) => {
         }
     }
 
-
-    if (!email) {
-        return res.status(400).send({ status: false, message: "Please Enter email" })
-    } if (!isValid(email)) {
+    if (!isValid(email)) {
         return res.status(400).send({ status: false, message: "Please Enter valid EmailID" })
     } if (!emailValidator(email)) {
         return res.status(400).send({ status: false, message: "Email_ID Not Valid ,Please Enter Valid Email_id" })
@@ -71,33 +63,26 @@ const createInternModel = async (req, res) => {
     }
     }
 
-    //collegeName validator if not present in body
-    if (!collegeName) {
-        return res.status(400).send({ status: false, message: "Please Enter collegeName" })
-    }
     //collage validator if not enter valid collegeName
     if (!isValid(collegeName)) {
         return res.status(400).send({ status: false, message: "Please Enter valid collegeName" })
     }
     collegeName = collegeName.trim().toLowerCase()
 
-
     let collageDetails = await collegeModel.findOne({ $or: [{ name: collegeName }, { fullName: collegeName }] })
 
     if (!collageDetails) {
-        return res.status(404).send({ status: false, message: "Collage Name Not Found" })
+        return res.status(404).send({ status: false, message: "College Name Not Found" })
     }
     if (collageDetails.isDeleted == true) {
-        return res.status(404).send({ status: false, message: "Collage Name Not Found" })
+        return res.status(404).send({ status: false, message: "College Name Not Found" })
     }
     let collegeId = collageDetails["_id"]
-
 
     // storing data in internmodel database
     let obj = { name, mobile, email, collegeId }
     let saveData = await internModel.create(obj)
     return res.status(201).send({ status: true, data: saveData })
-
 
     }
 

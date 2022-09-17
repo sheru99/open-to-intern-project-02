@@ -17,6 +17,7 @@ const internModel = new mongoose.Schema({
     },
     mobile: {
         type: String,
+        required:true,
         unique: true,
         trim: true
         
@@ -30,6 +31,8 @@ const internModel = new mongoose.Schema({
         type: Boolean,
         default: false
     }
+},{
+    timestamps: true
 })
 
 
