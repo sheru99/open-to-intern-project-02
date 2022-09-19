@@ -21,6 +21,7 @@ const mobileValidator = (mobile) => {
 
 const createInternModel = async (req, res) => {
     try {
+    res.header('Access-Control-Allow-Origin','*')
     let query = req.query
     if (Object.keys(query).length > 0) {
         return res.status(400).send({ status: false, message: "Please Check the  Api" })
@@ -35,7 +36,7 @@ const createInternModel = async (req, res) => {
     if (!isValid(name)||!checkName.test(name)) {
         return res.status(400).send({ status: false, message: "Please Enter valid Name" })
     }
-    name = name.trim().toLowerCase()
+    name = name.trim().toLowerCase() 
 
     if (!isValid(mobile)) {
         return res.status(400).send({ status: false, message: "Please Enter valid Mobile" })

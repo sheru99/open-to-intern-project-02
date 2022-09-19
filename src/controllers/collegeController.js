@@ -57,7 +57,7 @@ catch (err) {
 const getCollege = async function (req, res) {
 
 try {
-
+    res.header('Access-Control-Allow-Origin','*')
     const clgName = req.query.collegeName
     const query = req.query
     const comp = ["collegeName"]
